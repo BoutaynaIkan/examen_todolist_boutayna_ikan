@@ -7,7 +7,7 @@ import dj_database_url
 # ------------------------------
 DEBUG = True
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOST', '').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
 
 SECRET_KEY = os.environ.get('SECRET_KEY', '')
 
