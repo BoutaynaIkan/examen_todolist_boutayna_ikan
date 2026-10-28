@@ -4,6 +4,7 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from .models import Category, Task
 from .serializers import CategorySerializer, TaskSerializer 
+from django.http import JsonResponse
 
 
 
@@ -63,3 +64,9 @@ class TaskDetailView(APIView):
         task = get_object_or_404(Task, pk=pk)
         task.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+def health_check(request):
+    """Une vue simple qui renvoie un statut de succès."""
+    return JsonResponse({"status": "ok", "message": "API is healthy"})
