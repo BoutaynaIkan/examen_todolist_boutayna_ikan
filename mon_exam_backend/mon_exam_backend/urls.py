@@ -16,11 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from todolist.views import health_check
+from todolist.views import health_check, trigger_error
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('todolist.urls')),
     path('health/', health_check, name='health_check'),
+    path('error/', trigger_error, name='trigger_error'),
 ]
