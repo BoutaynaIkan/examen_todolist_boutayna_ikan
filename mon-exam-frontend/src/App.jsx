@@ -6,7 +6,9 @@ import TaskList from './components/TaskList'
 import axios from "axios";
 
 // URL de l'API backend
-const API_URL = "http://localhost:8000/api";
+const apiClient = axios.create({
+  baseURL: `${import.meta.env.VITE_API_URL}/api`
+});
 
 function App() {
   // Données
@@ -33,8 +35,8 @@ function App() {
     const fetchTasks = async () => {
       try {
         const [categoriesResponse, tasksResponse] = await Promise.all([
-          axios.get(`${API_URL}/categories/`),
-          axios.get(`${API_URL}/tasks/`)
+          apiClient.get(`/categories/`),
+          apiClient.get(`/tasks/`)
         ]);
         setCategories(categoriesResponse.data);
         setTasks(tasksResponse.data);
@@ -52,7 +54,7 @@ function App() {
   const handleAddCategory = async (newCategory) => {
     setIsAddingCategory(true);
     try {
-      const response = await axios.post(`${API_URL}/categories/`, { name: newCategory });
+      const response = await apiClient.post(`/categories/`, { name: newCategory });
       setCategories([...categories, response.data]);
     } catch (error) {
       console.error('Error adding category:', error);
@@ -67,7 +69,7 @@ function App() {
     setIsAddingTask(true);
   
     try {
-      const response = await axios.post(`${API_URL}/tasks/`, newTask);
+      const response = await apiClient.post(`/tasks/`, newTask);
       setTasks([...tasks, response.data]);
     } catch (error) {
       console.error('Error adding task:', error);
@@ -81,7 +83,7 @@ function App() {
   const handleDeleteTask = async (id) => {
     setIsDeletingTask(id);
     try {
-      await axios.delete(`${API_URL}/tasks/${id}/`);
+      await apiClient.delete(`/tasks/${id}/`);
       setTasks(tasks.filter(task => task.id !== id));
     } catch (error) {
       console.error('Error deleting task:', error);
@@ -98,7 +100,7 @@ function App() {
     setIsUpdatingTask(id);
 
     try {
-      const response = await axios.patch(`${API_URL}/tasks/${id}/`, { is_completed: !taskToUpdate.is_completed });
+      const response = await apiClient.patch(`/tasks/${id}/`, { is_completed: !taskToUpdate.is_completed });
       setTasks(tasks.map(task => 
         task.id === id ? response.data : task
       ));
@@ -115,7 +117,7 @@ function App() {
     setIsUpdatingTask(id);
     try {
       const updatedTask = { description, category };
-      await axios.patch(`${API_URL}/tasks/${id}/`, updatedTask);
+      await apiClient.patch(`/tasks/${id}/`, updatedTask);
       setTasks(tasks.map(task => 
         task.id === id ? { ...task, ...updatedTask } : task
       ));
