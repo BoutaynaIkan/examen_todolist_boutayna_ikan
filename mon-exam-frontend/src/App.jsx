@@ -1,4 +1,4 @@
-import './App.css'
+import TestComponent from './components/TestComponent';
 import { useState, useEffect } from 'react'
 import AddCategory from './components/AddCategory'
 import AddTask from './components/AddTask'
@@ -163,6 +163,7 @@ function App() {
         </select>
       </div>
       <TaskList tasks={filteredTasks} onDeleteTask={handleDeleteTask} onCheckboxChange={handleCheckboxChange} onUpdateTask={handleUpdateTask} categories={categories} isUpdatingTask={isUpdatingTask} isDeletingTask={isDeletingTask} />
+      <TestComponent />
     </>
   )
 }
